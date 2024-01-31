@@ -19,7 +19,7 @@ def main():
         "EXAMPLE": example,
         "N_HIDDEN_NEURONS": hidden_neurons,
         "BATCH_SIZE": 500,
-        "LEARNING_RATE": 0.55,
+        "LEARNING_RATE": 0.125,
         "LOSS_WEIGHT": (1.0, 1.0),
         "SPLIT_D": False,
         'BIAS': False,
