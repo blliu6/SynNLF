@@ -56,6 +56,7 @@ class SosValidator_V():
             for i in range(self.n):
                 poly = poly - (x[i] - zone.center[i]) ** 2
             return [poly]
+
         elif zone.shape == 'box':
             poly = []
             for i in range(self.n):
