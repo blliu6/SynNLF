@@ -12,14 +12,14 @@ from plots.plot_lyap import plot_benchmark_2d
 def main():
     activations = ['SKIP']
     hidden_neurons = [10] * len(activations)
-    example = get_example_by_name('C15')
+    example = get_example_by_name('C21')
     start = timeit.default_timer()
     opts = {
         "ACTIVATION": activations,
         "EXAMPLE": example,
         "N_HIDDEN_NEURONS": hidden_neurons,
-        "BATCH_SIZE": 500,
-        "LEARNING_RATE": 0.55,
+        "BATCH_SIZE": 520,
+        "LEARNING_RATE": 1.52,
         "LOSS_WEIGHT": (1.0, 1.0),
         "SPLIT_D": False,
         'BIAS': False,
