@@ -227,6 +227,77 @@ examples = {
         ],
         name='C15'
     ),
+    22: Example(
+        n=2,
+        D_zones=Zone(shape='ball', center=[0] * 2, r=1000 ** 2),
+        f=[
+            lambda x: -x[0] - 3 / 2 * x[0]**2 * x[1]**3,
+            lambda x: -x[1]**3 + 1 / 2 * (x[0] * x[1]) ** 2
+        ],
+        name='C16'
+    ),
+    23: Example(
+        n=2,
+        D_zones=Zone(shape='ball', center=[0] * 2, r=1000 ** 2),
+        f=[
+            lambda x: x[1] - x[0]**3 + x[0] * x[1]**4,
+            lambda x: -x[0]**3 - x[1]**5
+        ],
+        name='C17'
+    ),
+    24: Example(
+        n=2,
+        D_zones=Zone(shape='ball', center=[0] * 2, r=1000 ** 2),
+        f=[
+            lambda x: -x[1] - 3 / 2 * x[0] * x[1] - x[0]**3,
+            lambda x: x[0] + 3 * x[0]**2 + 9 / 4 * x[0]**3 - x[1]**3
+        ],
+        name='C18'
+    ),
+    25: Example(
+        n=3,
+        D_zones=Zone(shape='ball', center=[0] * 3, r=1000 ** 2),
+        f=[
+            lambda x: x[1] - x[0]**2 * x[2]**2 - x[0]**3,
+            lambda x: -x[0] + x[2]**2 - x[1]**3,
+            lambda x: -x[2] - x[1] * x[2]
+        ],
+        name='C19'
+    ),
+    26: Example(
+        n=3,
+        D_zones=Zone(shape='ball', center=[0] * 3, r=1000 ** 2),
+        f=[
+            lambda x: -x[0] + x[1] - x[0] * x[2]**2,
+            lambda x: (x[1] * x[2]) ** 2 - x[0] ** 3 - x[1] ** 3,
+            lambda x: -x[2] - x[1]**3 * x[2]
+        ],
+        name='C20'
+    ),
+    27: Example(
+        n=4,
+        D_zones=Zone(shape='ball', center=[0] * 4, r=1000 ** 2),
+        f=[
+            lambda x: -x[0]**3 + x[0] ** 2 * x[2] * x[3],
+            lambda x: -x[1] - 3 * x[2] + 2 * x[3] + (x[2] * x[3]) ** 2,
+            lambda x: 3 * x[1] - x[2] - x[3],
+            lambda x: -2 * x[1] + x[2] - x[3]
+        ],
+        name='C21'
+    ),
+    28: Example(
+        n=6,
+        D_zones=Zone(shape='ball', center=[0] * 6, r=1000 ** 2),
+        f=[
+            lambda x: x[1] * x[3] - x[0] ** 3,
+            lambda x: -3 * x[0] * x[3] - x[1] ** 3,
+            lambda x: -x[2] - 3 * x[0] * x[3]**3,
+            lambda x: -x[3] + x[0] * x[2],
+            lambda x: -x[4] + x[5] ** 3,
+            lambda x: -x[4] - x[5] + x[2] ** 4
+        ],
+        name='C22'
+    ),
 }
 
 

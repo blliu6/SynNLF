@@ -28,7 +28,8 @@ def main():
         'counter_nums': 130,
         'Global_Optimization': False,
         'ellipsoid': True,
-        'x0': [10] * example.n
+        'x0': [10] * example.n,
+        'loss_optimization': False,
     }
     Config = CegisConfig(**opts)
     c = Cegis(Config)

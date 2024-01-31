@@ -12,23 +12,23 @@ from plots.plot_lyap import plot_benchmark_2d
 def main():
     activations = ['SKIP']
     hidden_neurons = [10] * len(activations)
-    example = get_example_by_name('C7')
+    example = get_example_by_name('C16')
     start = timeit.default_timer()
     opts = {
         "ACTIVATION": activations,
         "EXAMPLE": example,
         "N_HIDDEN_NEURONS": hidden_neurons,
-        "BATCH_SIZE": 700,
-        "LEARNING_RATE": 0.1,
+        "BATCH_SIZE": 300,
+        "LEARNING_RATE": 0.52,
         "LOSS_WEIGHT": (1.0, 1.0),
         "SPLIT_D": False,
         'BIAS': False,
-        'DEG': [0, 2],
+        'DEG': [4, 4],
         'max_iter': 20,
-        'counter_nums': 130,
-        'Global_Optimization': False,
+        'counter_nums': 100,
         'ellipsoid': True,
-        'x0': [10] * example.n
+        'x0': [10] * example.n,
+        'loss_optimization': True,
     }
     Config = CegisConfig(**opts)
     c = Cegis(Config)
