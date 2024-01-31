@@ -24,6 +24,7 @@ class CegisConfig():
     x0 = None
     Global_Optimization = False
     ellipsoid = False
+    loss_optimization = False
 
     def __init__(self, **kwargs):
         for key, value in kwargs.items():

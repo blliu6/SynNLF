@@ -26,7 +26,9 @@ class Cegis:
         self.DEG = config.DEG
 
     def solve(self):
-
+        # print(list(self.Learner.net.parameters()))
+        # import os
+        # os.system('pause')
         S, Sdot = self.sample.generate_data()
         # the CEGIS loop
         deg = self.DEG

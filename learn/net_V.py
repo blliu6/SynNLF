@@ -10,6 +10,7 @@ class Net(nn.Module):
         super(Net, self).__init__()
         self.config = config
         self.input_size = input_size = config.EXAMPLE.n
+        self.sigma = nn.Parameter(torch.zeros(2), requires_grad=True)
         hiddens = config.N_HIDDEN_NEURONS
         activate = config.ACTIVATION
         self.acts = config.ACTIVATION
@@ -120,6 +121,7 @@ class Learner(nn.Module):
         self.net = Net(config)
         self.loss_weight = config.LOSS_WEIGHT
         self.config = config
+        self.lr = config.LEARNING_RATE
 
     def learn(self, optimizer, S, Sdot):
         """
@@ -132,6 +134,9 @@ class Learner(nn.Module):
 
         assert (len(S) == len(Sdot))
         print('samples:', len(S))
+        if not self.config.loss_optimization:
+            self.net.sigma.requires_grad = False
+
         learn_loops = self.config.learn_loops
         margin = self.config.MARGIN
         slope = 1e-3
@@ -145,9 +150,15 @@ class Learner(nn.Module):
             accuracy_v = sum(V >= margin * circle).item() * 100 / len(S)
             accuracy_vdot = sum(Vdot < -margin * circle).item() * 100 / len(S)
 
-            loss = self.loss_weight[0] * (torch.relu(-V + margin * circle) - slope * relu6(V - margin * circle)).mean()
-            loss = loss + self.loss_weight[1] * (
-                    torch.relu(Vdot + margin * circle) - slope * relu6(-Vdot - margin * circle)).mean()
+            loss1 = (torch.relu(-V + margin * circle) - slope * relu6(V - margin * circle))
+            loss2 = (torch.relu(Vdot + margin * circle) - slope * relu6(-Vdot - margin * circle))
+
+            if self.config.loss_optimization:
+                loss1 = torch.exp(-self.net.sigma[0]) * loss1 + self.net.sigma[0]
+                loss2 = torch.exp(-self.net.sigma[1]) * loss2 + self.net.sigma[1]
+                loss = loss1.mean() + loss2.mean()
+            else:
+                loss = self.loss_weight[0] * loss1.mean() + self.loss_weight[1] * loss2.mean()
 
             if t % int(learn_loops / 10) == 0 or (accuracy_v == 100 and accuracy_vdot == 100):
                 print(t, "- loss:", loss.item(), '- accuracy V:', accuracy_v, 'accuracy Vdot:', accuracy_vdot)
