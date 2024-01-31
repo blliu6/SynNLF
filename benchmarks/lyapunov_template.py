@@ -2,6 +2,7 @@ from learn.cegis_lyapunov import Cegis
 from utils.Config_V import CegisConfig
 import timeit
 import torch
+import numpy as np
 from benchmarks.Exampler_V import get_example_by_name
 from plots.plot_lyap import plot_benchmark_2d
 
@@ -22,19 +23,19 @@ def main():
         "LOSS_WEIGHT": (1.0, 1.0),
         "SPLIT_D": True,
         'BIAS': False,
-        'DEG': [2, 4],
-        'CHOICE': [0, 0]
+        'DEG': [4, 4],
+        'max_iter': 10
     }
     Config = CegisConfig(**opts)
     c = Cegis(Config)
-    c.generate_data()
     c.solve()
     end = timeit.default_timer()
     print('Elapsed Time: {}'.format(end - start))
-    if example.n == 2:
-        plot_benchmark_2d(c.ex, c.Learner.net.get_lyapunov())
+    # if example.n == 2:
+    #     plot_benchmark_2d(c.ex, c.Learner.net.get_lyapunov())
 
 
 if __name__ == '__main__':
-    torch.manual_seed(167)
+    torch.manual_seed(2024)
+    np.random.seed(2024)
     main()

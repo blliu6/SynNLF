@@ -61,7 +61,6 @@ class Net(nn.Module):
                                                                                         layer1.weight)
                 jacobian = torch.matmul(grad, jacobian)
 
-
             elif self.acts[idx] == 'SKIP':
                 z1 = layer1(y)
                 z2 = layer2(x)
@@ -133,7 +132,7 @@ class Learner(nn.Module):
 
         assert (len(S) == len(Sdot))
         print('samples:', len(S))
-        learn_loops = 500
+        learn_loops = self.config.learn_loops
         margin = self.config.MARGIN
         slope = 1e-3
         relu6 = torch.nn.ReLU6()

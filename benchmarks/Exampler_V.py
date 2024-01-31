@@ -1,14 +1,24 @@
 import numpy as np
 
 
-class Example():
+class Zone:
+    def __init__(self, shape: str, low=None, up=None, center=None, r=None):
+        self.shape = shape
+        if shape == 'ball':
+            self.center = np.array(center, dtype=np.float32)
+            self.r = r  # radius squared
+        elif shape == 'box':
+            self.low = np.array(low, dtype=np.float32)
+            self.up = np.array(up, dtype=np.float32)
+            self.center = (self.low + self.up) / 2
+        else:
+            raise ValueError(f'There is no area of such shape!')
+
+
+class Example:
     def __init__(self, n, D_zones, f, name):
-        if len(D_zones) != n:
-            raise ValueError('The dimension of D_zones is wrong.')
-        if len(f) != n:
-            raise ValueError('The dimension of f is wrong.')
         self.n = n  # number of variables
-        self.D_zones = np.array(D_zones)  # local condition
+        self.D_zones = D_zones  # local condition
         self.f = f  # differential equation
         self.name = name  # name or identifier
 
@@ -16,7 +26,7 @@ class Example():
 examples = {
     0: Example(
         n=2,
-        D_zones=[[-10, 10]] * 2,
+        D_zones=Zone(shape='box', low=[-10, -10], up=[10, 10]),
         f=[
             lambda x: -x[0] + x[0] * x[1],
             lambda x: -x[1]
@@ -25,7 +35,7 @@ examples = {
     ),
     1: Example(
         n=2,
-        D_zones=[[-10, 10]] * 2,
+        D_zones=Zone(shape='box', low=[-10, -10], up=[10, 10]),
         f=[
             lambda x: -x[0] + 2 * x[0] ** 2 * x[1],
             lambda x: -x[1]
@@ -35,7 +45,7 @@ examples = {
     ),
     2: Example(
         n=3,
-        D_zones=[[-10, 10]] * 3,
+        D_zones=Zone(shape='box', low=[-10, -10, -10], up=[10, 10, 10]),
         f=[
             lambda x: -x[0],
             lambda x: -2 * x[1] + 0.1 * x[0] * x[1] ** 2 + x[2],
@@ -45,7 +55,7 @@ examples = {
     ),
     3: Example(
         n=4,
-        D_zones=[[-2, 2]] * 4,
+        D_zones=Zone(shape='box', low=[-2, -2, -2], up=[2, 2, 2]),
         f=[lambda x: x[0],
            lambda x: x[1],
            lambda x: x[2],
@@ -55,7 +65,7 @@ examples = {
     ),
     4: Example(
         n=3,
-        D_zones=[[-10, 10]] * 3,
+        D_zones=Zone(shape='box', low=[-10, -10, -10], up=[10, 10, 10]),
         f=[
             lambda x: -3 * x[0] - 0.1 * x[0] * x[1] ** 3,
             lambda x: -x[1] + x[2],
@@ -65,7 +75,7 @@ examples = {
     ),
     5: Example(
         n=2,
-        D_zones=[[-10, 10]] * 2,
+        D_zones=Zone(shape='box', low=[-10, -10], up=[10, 10]),
         f=[
             lambda x: -x[0],
             lambda x: -x[1]
@@ -74,7 +84,7 @@ examples = {
     ),
     6: Example(
         n=2,
-        D_zones=[[-1.5, 1.5]] * 2,
+        D_zones=Zone(shape='box', low=[-1.5, -1.5], up=[1.5, 1.5]),
         f=[lambda x: -x[0] + 2 * x[0] * x[0] * x[0] * x[1] * x[1],
            lambda x: -x[1]
            ],
@@ -82,7 +92,7 @@ examples = {
     ),
     7: Example(
         n=3,
-        D_zones=[[-10, 10]] * 3,
+        D_zones=Zone(shape='box', low=[-10, -10, -10], up=[10, 10, 10]),
         f=[
             lambda x: -x[0] ** 3 - x[0] * x[2] ** 2,
             lambda x: -x[1] - x[0] ** 2 * x[1],
@@ -92,7 +102,7 @@ examples = {
     ),
     8: Example(
         n=2,
-        D_zones=[[-10, 10]] * 2,
+        D_zones=Zone(shape='box', low=[-10, -10], up=[10, 10]),
         f=[
             lambda x: -x[0] ** 3 + x[1],
             lambda x: -x[0] - x[1],
@@ -101,7 +111,7 @@ examples = {
     ),
     9: Example(
         n=2,
-        D_zones=[[-1, 1]] * 2,
+        D_zones=Zone(shape='box', low=[-1, -1], up=[1, 1]),
         f=[lambda x: -2 * x[0] + x[0] * x[0] + x[1],
            lambda x: x[0] - 2 * x[1] + x[1] * x[1]
            ],
@@ -109,7 +119,7 @@ examples = {
     ),
     10: Example(
         n=2,
-        D_zones=[[-2, 2]] * 2,
+        D_zones=Zone(shape='box', low=[-2, -2], up=[2, 2]),
         f=[lambda x: -x[0] + x[0] * x[1],
            lambda x: -x[1]
            ],
@@ -117,7 +127,7 @@ examples = {
     ),
     11: Example(
         n=2,
-        D_zones=[[-2, 2]] * 2,
+        D_zones=Zone(shape='box', low=[-2, -2], up=[2, 2]),
         f=[lambda x: -x[0] + 2 * x[0] * x[0] * x[1],
            lambda x: -x[1]
            ],
@@ -125,7 +135,7 @@ examples = {
     ),
     12: Example(
         n=2,
-        D_zones=[[-10, 10]] * 2,
+        D_zones=Zone(shape='box', low=[-10, -10], up=[10, 10]),
         f=[
             lambda x: -x[0] ** 3 - x[1] ** 2,
             lambda x: x[0] * x[1] - x[1] ** 3,
@@ -135,7 +145,7 @@ examples = {
     ),
     13: Example(
         n=2,
-        D_zones=[[-10, 10]] * 2,
+        D_zones=Zone(shape='box', low=[-10, -10], up=[10, 10]),
         f=[
             lambda x: -x[0] - 1.5 * x[0] ** 2 * x[1] ** 3,
             lambda x: -x[1] ** 3 + 0.5 * x[0] ** 3 * x[1] ** 2
@@ -144,7 +154,7 @@ examples = {
     ),
     14: Example(
         n=2,
-        D_zones=[[-1.6, 1.6], [-2, 2]],
+        D_zones=Zone(shape='box', low=[-1.6, -2], up=[1.6, 2]),
         f=[
             lambda x: x[1],
             lambda x: -x[0] - x[1] + 1 / 3.0 * x[0] ** 3
@@ -153,7 +163,7 @@ examples = {
     ),
     15: Example(
         n=4,
-        D_zones=[[-10, 10]] * 4,
+        D_zones=Zone(shape='box', low=[-10, -10, -10, -10], up=[10, 10, 10, 10]),
         f=[
             lambda x: -x[0] ** 3 - x[1] ** 2,
             lambda x: x[0] * x[1] - x[1] ** 3,
