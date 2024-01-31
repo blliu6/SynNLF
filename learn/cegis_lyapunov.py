@@ -62,7 +62,7 @@ class Cegis:
                 print('No counterexamples were found!')
                 # deg[1] += 2
             else:
-                S, Sdot = self.add_ces_to_data(S, Sdot, samples)
+                S, Sdot = self.add_ces_to_data(S, Sdot, torch.Tensor(np.array(samples)))
             print('-' * 200)
         print('Total learning time:{}'.format(t_learn))
         print('Total counter-examples generating time:{}'.format(t_cex))

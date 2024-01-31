@@ -1,8 +1,9 @@
+import torch
 from scipy.optimize import minimize, NonlinearConstraint
 import numpy as np
 import sympy as sp
 from benchmarks.Exampler_V import Example, Zone, get_example_by_id
-import torch
+import cvxpy as cp
 
 
 def split_bounds(bounds, n):
@@ -43,15 +44,22 @@ class CounterExampleFinder:
         self.x = sp.symbols(['x{}'.format(i + 1) for i in range(self.n)])
         self.config = config
         self.nums = config.counter_nums
+        self.x0 = np.ones(self.n) if config.x0 is None else config.x0
+        self.Global_Optimization = config.Global_Optimization
+        self.ellipsoid = config.ellipsoid
 
     def find_counterexamples(self, V):
-        print('_______________________________________')
         res = []
 
         expr1 = V
-        vis1, x1 = self.get_extremum_scipy(self.inv, expr1)
+        if self.Global_Optimization:
+            vis1, x1 = self.get_extremum_cvxpy(self.inv, expr1)
+        else:
+            vis1, x1 = self.get_extremum_scipy(self.inv, expr1)
         if vis1:
             x1 = self.generate_sample(x1, expr1)
+            if self.ellipsoid:
+                x1 = self.get_counterexamples_by_ellipsoid(x1, self.nums)
             res.extend(x1)
 
         x = self.x
@@ -62,10 +70,14 @@ class CounterExampleFinder:
             bounds = [self.inv]
 
         for bound in bounds:
-            vis2, x2 = self.get_extremum_scipy(bound, expr2)
+            if self.Global_Optimization:
+                vis2, x2 = self.get_extremum_cvxpy(bound, expr2)
+            else:
+                vis2, x2 = self.get_extremum_scipy(bound, expr2)
             if vis2:
-                print(vis2)
                 x2 = self.generate_sample(x2, expr2)
+                if self.ellipsoid:
+                    x2 = self.get_counterexamples_by_ellipsoid(x2, self.nums)
                 res.extend(x2)
 
         return res
@@ -91,7 +103,7 @@ class CounterExampleFinder:
         else:
             vis = True
             low, up = zone.low, zone.up
-            for i in self.n:
+            for i in range(self.n):
                 vis = vis and (low[i] <= x[i] <= up[i])
             return vis
 
@@ -101,7 +113,7 @@ class CounterExampleFinder:
         result = None
         if zone.shape == 'box':
             bound = tuple(zip(zone.low, zone.up))
-            res = minimize(lambda x: opt(*x), np.zeros(self.n), bounds=bound)
+            res = minimize(lambda x: opt(*x), self.x0, bounds=bound)
             if res.fun < 0 and res.success:
                 # print(f'Counterexample found:{res.x}')
                 result = res.x
@@ -111,7 +123,7 @@ class CounterExampleFinder:
                 poly = poly - (x_[i] - zone.center[i]) ** 2
             poly_fun = sp.lambdify(x_, poly)
             con = {'type': 'ineq', 'fun': lambda x: poly_fun(*x)}
-            res = minimize(lambda x: opt(*x), np.zeros(self.n), constraints=con)
+            res = minimize(lambda x: opt(*x), self.x0, constraints=con)
             if res.fun < 0 and res.success:
                 # print(f'Counterexample found:{res.x}')
                 result = res.x
@@ -119,6 +131,64 @@ class CounterExampleFinder:
             return False, []
         else:
             return True, result
+
+    def get_extremum_cvxpy(self, zone: Zone, expr):
+        x_ = sp.symbols([f'x{i + 1}' for i in range(self.n)])
+        opt = sp.lambdify(x_, expr)
+
+        x = [cp.Variable(name=f'x{i + 1}') for i in range(self.n)]
+        con = []
+
+        if zone.shape == 'box':
+            for i in range(self.n):
+                con.append(x[i] >= zone.low[i])
+                con.append(x[i] <= zone.up[i])
+        elif zone.shape == 'ball':
+            poly = zone.r
+            for i in range(self.n):
+                poly = poly - (x[i] - zone.center[i]) ** 2
+            con.append(poly >= 0)
+
+        obj = cp.Minimize(opt(*x))
+        prob = cp.Problem(obj, con)
+        prob.solve(solver=cp.GUROBI)
+        if prob.value < 0 and prob.status == 'optimal':
+            ans = [e.value for e in x]
+            print(f'Counterexample found:{ans}')
+            return True, np.array(ans)
+        else:
+            return False, []
+
+    def get_ellipsoid(self, data):
+        n = self.n
+        A = cp.Variable((n, n), PSD=True)
+        B = cp.Variable((n, 1))
+        con = []
+        for e in data:
+            con.append(cp.sum_squares(A @ np.array([e]).T + B) <= 1)
+
+        obj = cp.Minimize(-cp.log_det(A))
+        prob = cp.Problem(obj, con)
+        try:
+            prob.solve(solver=cp.MOSEK)
+            if prob.status == 'optimal':
+                P = np.linalg.inv(A.value)
+                center = -P @ B.value
+                return True, P, center
+            else:
+                return False, None, None
+        except:
+            return False, None, None
+
+    def get_counterexamples_by_ellipsoid(self, data, nums):
+        state, P, center = self.get_ellipsoid(data)
+        if not state:
+            return data
+        else:
+            ans = np.random.randn(nums, self.n)
+            ans = np.array([e / np.sqrt(sum(e ** 2)) * np.random.random() ** (1 / self.n) for e in ans]).T
+            ellip = P @ ans + center
+            return list(ellip.T)
 
     def split_zone(self, zone: Zone):
         bound = list(zip(zone.low, zone.up))

@@ -24,7 +24,10 @@ def main():
         "SPLIT_D": True,
         'BIAS': False,
         'DEG': [4, 4],
-        'max_iter': 10
+        'max_iter': 10,
+        'counter_nums': 50,
+        'Global_Optimization': False,
+        'ellipsoid': True
     }
     Config = CegisConfig(**opts)
     c = Cegis(Config)

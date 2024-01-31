@@ -1,4 +1,5 @@
 import torch
+import numpy as np
 from benchmarks.Exampler_V import Example
 
 
@@ -20,6 +21,9 @@ class CegisConfig():
     counter_nums = 20
     learn_loops = 100
     max_iter = 10
+    x0 = None
+    Global_Optimization = False
+    ellipsoid = False
 
     def __init__(self, **kwargs):
         for key, value in kwargs.items():

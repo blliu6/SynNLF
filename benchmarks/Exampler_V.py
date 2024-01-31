@@ -171,7 +171,17 @@ examples = {
             lambda x: -x[2] - x[3],
         ],
         name='poly5'
-    )
+    ),
+    16: Example(
+        n=3,
+        D_zones=Zone(shape='ball', center=[0] * 3, r=10 ** 2),
+        f=[
+            lambda x: -x[0] ** 3 - x[0] * x[2] ** 2,
+            lambda x: -x[1] - x[0] ** 2 * x[1],
+            lambda x: -x[2] + 3 * x[0] ** 2 * x[2] - 3 * x[2]
+        ],
+        name='poly_1'
+    ),
 }
 
 
