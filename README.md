@@ -27,7 +27,7 @@ The directory in which you install SynNLF contains five subdirectories:
 
 ## 2.1 System requirements
 
-To install and run SynHbc, you need:
+To install and run SynNLF, you need:
 
 * Windows Platform: `Python 3.9`;
 * Linux Platform: `Python 3.9`;
