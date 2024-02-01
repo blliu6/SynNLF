@@ -5,11 +5,11 @@ import torch
 import numpy as np
 from benchmarks.Exampler_V import get_example_by_name
 
-import sys, os
-file_name = os.path.basename(__file__).split(".")[0]
-path = './results/'
-full_path = path + file_name
-sys.stdout = open(full_path, 'w')
+# import sys, os
+# file_name = os.path.basename(__file__).split(".")[0]
+# path = './results/'
+# full_path = path + file_name
+# sys.stdout = open(full_path, 'w')
 
 def main():
     activations = ['SKIP']
@@ -27,7 +27,7 @@ def main():
         'BIAS': False,
         'DEG': [4, 6],
         'max_iter': 20,
-        'counter_nums': 300,
+        'counter_nums': 30,
         'Global_Optimization': False,
         'ellipsoid': True,
         'x0': [10] * example.n,

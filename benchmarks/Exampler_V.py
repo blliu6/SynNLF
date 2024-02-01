@@ -89,7 +89,7 @@ examples = {
     ),
     8: Example(
         n=2,
-        D_zones=Zone(shape='ball', center=[0] * 2, r=300 ** 2),
+        D_zones=Zone(shape='ball', center=[0] * 2, r=1 ** 2),
         f=[
             lambda x: -x[1],
             lambda x: x[0] - x[1] * (1 - x[0] ** 2),
@@ -127,7 +127,7 @@ examples = {
     ),
     12: Example(
         n=2,
-        D_zones=Zone(shape='ball', center=[0] * 2, r=1000 ** 2),
+        D_zones=Zone(shape='ball', center=[0] * 2, r=800 ** 2),
         f=[
             lambda x: -x[0] - 3 / 2 * x[0] ** 2 * x[1] ** 3,
             lambda x: -x[1] ** 3 + 1 / 2 * (x[0] * x[1]) ** 2

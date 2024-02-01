@@ -5,14 +5,14 @@ import torch
 import numpy as np
 from benchmarks.Exampler_V import get_example_by_name
 
-import sys, os
-file_name = os.path.basename(__file__).split(".")[0]
-path = './results/'
-full_path = path + file_name
-sys.stdout = open(full_path, 'w')
+# import sys, os
+# file_name = os.path.basename(__file__).split(".")[0]
+# path = './results/'
+# full_path = path + file_name
+# sys.stdout = open(full_path, 'w')
 
 def main():
-    activations = ['SKIP']
+    activations = ['SKIP'] * 3
     hidden_neurons = [10] * len(activations)
     example = get_example_by_name('C12')
     start = timeit.default_timer()
@@ -20,17 +20,17 @@ def main():
         "ACTIVATION": activations,
         "EXAMPLE": example,
         "N_HIDDEN_NEURONS": hidden_neurons,
-        "BATCH_SIZE": 300,
-        "LEARNING_RATE": 0.52,
-        "LOSS_WEIGHT": (1.0, 1.0),
+        "BATCH_SIZE": 500,
+        "LEARNING_RATE": 0.125,
+        "LOSS_WEIGHT": (1.0, 1),
         "SPLIT_D": False,
         'BIAS': False,
-        'DEG': [4, 4],
-        'max_iter': 20,
+        'DEG': [6, 6],
+        'max_iter': 10,
         'counter_nums': 100,
         'ellipsoid': True,
         'x0': [10] * example.n,
-        'loss_optimization': True,
+        'loss_optimization': False,
     }
     Config = CegisConfig(**opts)
     c = Cegis(Config)

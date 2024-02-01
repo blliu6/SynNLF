@@ -5,11 +5,11 @@ import torch
 import numpy as np
 from benchmarks.Exampler_V import get_example_by_name
 
-import sys, os
-file_name = os.path.basename(__file__).split(".")[0]
-path = './results/'
-full_path = path + file_name
-sys.stdout = open(full_path, 'w')
+# import sys, os
+# file_name = os.path.basename(__file__).split(".")[0]
+# path = './results/'
+# full_path = path + file_name
+# sys.stdout = open(full_path, 'w')
 
 def main():
     activations = ['SKIP']

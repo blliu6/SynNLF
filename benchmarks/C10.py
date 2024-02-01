@@ -5,14 +5,14 @@ import torch
 import numpy as np
 from benchmarks.Exampler_V import get_example_by_name
 
-import sys, os
-file_name = os.path.basename(__file__).split(".")[0]
-path = './results/'
-full_path = path + file_name
-sys.stdout = open(full_path, 'w')
+# import sys, os
+# file_name = os.path.basename(__file__).split(".")[0]
+# path = './results/'
+# full_path = path + file_name
+# sys.stdout = open(full_path, 'w')
 
 def main():
-    activations = ['SKIP']
+    activations = ['SKIP'] * 3
     hidden_neurons = [10] * len(activations)
     example = get_example_by_name('C10')
     start = timeit.default_timer()
@@ -25,7 +25,7 @@ def main():
         "LOSS_WEIGHT": (1.0, 1.0),
         "SPLIT_D": False,
         'BIAS': False,
-        'DEG': [2, 4],
+        'DEG': [6, 6],
         'max_iter': 20,
         'counter_nums': 100,
         'ellipsoid': True,

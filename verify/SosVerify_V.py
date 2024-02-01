@@ -151,6 +151,7 @@ if __name__ == '__main__':
         lambda x: x[0] - x[1] * (1 - x[0] ** 2),
     ]
     V = -0.000108292221694259 * x[0] ** 2 + 1.00031691557689e-6 * x[0] * x[1] - 0.00231715790006692 * x[1] ** 2
+    V*=-1
     Lie = sp.expand(sum([sp.diff(V, x[i]) * f[i](x) for i in range(n)]))
 
     [poly1, par1, term1] = polynomial(n, x, 4)
