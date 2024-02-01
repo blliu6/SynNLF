@@ -6,12 +6,6 @@ import numpy as np
 from benchmarks.Exampler_V import get_example_by_name
 
 
-import sys, os
-file_name = os.path.basename(__file__).split(".")[0]
-path = './results/'
-full_path = path + file_name
-sys.stdout = open(full_path, 'w')
-
 def main():
     activations = ['SKIP']
     hidden_neurons = [10] * len(activations)
@@ -29,9 +23,7 @@ def main():
         'DEG': [4, 4],
         'max_iter': 20,
         'counter_nums': 200,
-        'Global_Optimization': False,
         'ellipsoid': True,
-        'x0': [10] * 2,
         'loss_optimization': False,
     }
     Config = CegisConfig(**opts)
@@ -43,7 +35,6 @@ def main():
         from plots.plot import Draw
         draw = Draw(c.ex, c.Learner.net.get_lyapunov())
         draw.plot_benchmark_2d()
-        draw.plot_benchmark_3d()
 
 
 if __name__ == '__main__':

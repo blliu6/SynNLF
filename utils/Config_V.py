@@ -21,8 +21,6 @@ class CegisConfig():
     counter_nums = 20
     learn_loops = 100
     max_iter = 10
-    x0 = None
-    Global_Optimization = False
     ellipsoid = False
     loss_optimization = False
 
