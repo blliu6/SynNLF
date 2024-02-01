@@ -20,13 +20,12 @@ def main():
         "LOSS_WEIGHT": (1.0, 1.0),
         "SPLIT_D": False,
         'BIAS': False,
-        'DEG': [0, 4],
-        'max_iter': 10,
-        'counter_nums': 200,
+        'DEG': [0, 0],
+        'max_iter': 20,
+        'counter_nums': 30,
         'Global_Optimization': False,
         'ellipsoid': True,
-        'x0': [11] * 2,
-        'loss_optimization': True
+        'x0': [10] * example.n
     }
     Config = CegisConfig(**opts)
     c = Cegis(Config)

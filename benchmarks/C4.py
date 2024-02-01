@@ -6,6 +6,12 @@ import numpy as np
 from benchmarks.Exampler_V import get_example_by_name
 
 
+import sys, os
+file_name = os.path.basename(__file__).split(".")[0]
+path = './results/'
+full_path = path + file_name
+sys.stdout = open(full_path, 'w')
+
 def main():
     activations = ['SKIP']
     hidden_neurons = [10] * len(activations)
@@ -15,17 +21,18 @@ def main():
         "ACTIVATION": activations,
         "EXAMPLE": example,
         "N_HIDDEN_NEURONS": hidden_neurons,
-        "BATCH_SIZE": 200,
-        "LEARNING_RATE": 0.1,
+        "BATCH_SIZE": 500,
+        "LEARNING_RATE": 0.18,
         "LOSS_WEIGHT": (1.0, 1.0),
         "SPLIT_D": False,
         'BIAS': False,
-        'DEG': [2, 4],
+        'DEG': [4, 4],
         'max_iter': 20,
-        'counter_nums': 30,
+        'counter_nums': 200,
         'Global_Optimization': False,
         'ellipsoid': True,
-        'x0': [10] * example.n
+        'x0': [10] * 2,
+        'loss_optimization': False,
     }
     Config = CegisConfig(**opts)
     c = Cegis(Config)

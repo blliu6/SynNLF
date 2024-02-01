@@ -25,7 +25,8 @@ def main():
         'counter_nums': 200,
         'Global_Optimization': False,
         'ellipsoid': True,
-        'x0': [10] * 2
+        'x0': [11] * 2,
+        'loss_optimization': True
     }
     Config = CegisConfig(**opts)
     c = Cegis(Config)

@@ -6,6 +6,12 @@ import numpy as np
 from benchmarks.Exampler_V import get_example_by_name
 
 
+import sys, os
+file_name = os.path.basename(__file__).split(".")[0]
+path = './results/'
+full_path = path + file_name
+sys.stdout = open(full_path, 'w')
+
 def main():
     activations = ['SKIP']
     hidden_neurons = [10] * len(activations)
@@ -15,14 +21,14 @@ def main():
         "ACTIVATION": activations,
         "EXAMPLE": example,
         "N_HIDDEN_NEURONS": hidden_neurons,
-        "BATCH_SIZE": 100,
+        "BATCH_SIZE": 700,
         "LEARNING_RATE": 0.1,
         "LOSS_WEIGHT": (1.0, 1.0),
         "SPLIT_D": False,
         'BIAS': False,
-        'DEG': [0, 0],
+        'DEG': [0, 2],
         'max_iter': 20,
-        'counter_nums': 30,
+        'counter_nums': 130,
         'Global_Optimization': False,
         'ellipsoid': True,
         'x0': [10] * example.n
