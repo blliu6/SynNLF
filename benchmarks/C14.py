@@ -20,17 +20,18 @@ def main():
         "ACTIVATION": activations,
         "EXAMPLE": example,
         "N_HIDDEN_NEURONS": hidden_neurons,
-        "BATCH_SIZE": 300,
-        "LEARNING_RATE": 1.02,
+        "BATCH_SIZE": 700,
+        "LEARNING_RATE": 0.5,
         "LOSS_WEIGHT": (1.0, 1.0),
         "SPLIT_D": False,
         'BIAS': False,
-        'DEG': [4, 4],
+        'DEG': [4, 6],
         'max_iter': 20,
-        'counter_nums': 100,
+        'counter_nums': 300,
+        'Global_Optimization': False,
         'ellipsoid': True,
         'x0': [10] * example.n,
-        'loss_optimization': True,
+        'loss_optimization': False
     }
     Config = CegisConfig(**opts)
     c = Cegis(Config)

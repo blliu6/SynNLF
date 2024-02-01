@@ -20,7 +20,7 @@ def main():
         "ACTIVATION": activations,
         "EXAMPLE": example,
         "N_HIDDEN_NEURONS": hidden_neurons,
-        "BATCH_SIZE": 1000,
+        "BATCH_SIZE": 520,
         "LEARNING_RATE": 1.52,
         "LOSS_WEIGHT": (1.0, 1.0),
         "SPLIT_D": False,

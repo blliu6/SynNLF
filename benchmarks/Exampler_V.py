@@ -89,20 +89,20 @@ examples = {
     ),
     8: Example(
         n=2,
-        D_zones=Zone(shape='ball', center=[0] * 2, r=1000 ** 2),
+        D_zones=Zone(shape='ball', center=[0] * 2, r=300 ** 2),
         f=[
             lambda x: -x[1],
             lambda x: x[0] - x[1] * (1 - x[0] ** 2),
         ],
         name='C8'
     ),
+
     9: Example(
         n=2,
         D_zones=Zone(shape='ball', center=[0] * 2, r=1000 ** 2),
         f=[
-            lambda x: -x[1],
-            lambda x: -x[0] - x[1] + x[0] ** 2 * x[1],
-            # lambda x: x[0] - x[1] + x[0] ** 2 * x[1],
+            lambda x: -x[1] - 3 / 2 * x[0] * x[1] - x[0] ** 3,
+            lambda x: x[0] + 3 * x[0] ** 2 + 9 / 4 * x[0] ** 3 - x[1] ** 3
         ],
         name='C9'
     ),
@@ -110,27 +110,27 @@ examples = {
         n=2,
         D_zones=Zone(shape='ball', center=[0] * 2, r=1000 ** 2),
         f=[
-            lambda x: -x[1] - 3 / 2 * x[0] * x[1] - x[0] ** 3,
-            lambda x: x[0] + 3 * x[0] ** 2 + 9 / 4 * x[0] ** 3 - x[1] ** 3
+            lambda x: -x[1],
+            lambda x: -x[0] - 4 * x[1] + 0.25 * (x[1] - 0.5 * x[0]) * (x[1] - 2 * x[0]) * (x[1] + 2 * x[0]) * (
+                        x[0] + x[1]),
         ],
         name='C10'
     ),
     11: Example(
         n=2,
-        D_zones=Zone(shape='ball', center=[0] * 2, r=1000 ** 2),
+        D_zones=Zone(shape='ball', center=[0] * 2, r=1500 ** 2),
         f=[
-            lambda x: -x[1],
-            lambda x: -x[0] - 4 * x[1] + 0.25 * (x[1] - 0.5 * x[0]) * (x[1] - 2 * x[0]) * (x[1] + 2 * x[0]) * (
-                        x[0] + x[1]),
+            lambda x: -x[0] - 1.5 * x[0] ** 2 * x[1] ** 3,
+            lambda x: -x[1] ** 3 + 0.5 * x[0] ** 3 * x[1] ** 2
         ],
         name='C11'
     ),
     12: Example(
         n=2,
-        D_zones=Zone(shape='ball', center=[0] * 2, r=1500 ** 2),
+        D_zones=Zone(shape='ball', center=[0] * 2, r=1000 ** 2),
         f=[
-            lambda x: -x[0] - 1.5 * x[0] ** 2 * x[1] ** 3,
-            lambda x: -x[1] ** 3 + 0.5 * x[0] ** 3 * x[1] ** 2
+            lambda x: -x[0] - 3 / 2 * x[0] ** 2 * x[1] ** 3,
+            lambda x: -x[1] ** 3 + 1 / 2 * (x[0] * x[1]) ** 2
         ],
         name='C12'
     ),
@@ -138,21 +138,12 @@ examples = {
         n=2,
         D_zones=Zone(shape='ball', center=[0] * 2, r=1000 ** 2),
         f=[
-            lambda x: -x[0] - 3 / 2 * x[0] ** 2 * x[1] ** 3,
-            lambda x: -x[1] ** 3 + 1 / 2 * (x[0] * x[1]) ** 2
+            lambda x: x[1] - x[0] ** 3 + x[0] * x[1] ** 4,
+            lambda x: -x[0] ** 3 - x[1] ** 5
         ],
         name='C13'
     ),
     14: Example(
-        n=2,
-        D_zones=Zone(shape='ball', center=[0] * 2, r=1000 ** 2),
-        f=[
-            lambda x: x[1] - x[0] ** 3 + x[0] * x[1] ** 4,
-            lambda x: -x[0] ** 3 - x[1] ** 5
-        ],
-        name='C14'
-    ),
-    15: Example(
         n=3,
         D_zones=Zone(shape='ball', center=[0] * 3, r=1000 ** 2),
         f=[
@@ -160,9 +151,9 @@ examples = {
             lambda x: -2 * x[1] + 0.1 * x[0] * x[1] ** 2 + x[2],
             lambda x: -x[2] - 1.5 * x[1]
         ],
-        name='C15'
+        name='C14'
     ),
-    16: Example(
+    15: Example(
         n=3,
         D_zones=Zone(shape='ball', center=[0] * 3, r=1000 ** 2),
         f=[
@@ -170,9 +161,9 @@ examples = {
             lambda x: -x[1] - x[0] ** 2 * x[1],
             lambda x: -x[2] + 3 * x[0] ** 2 * x[2] - 3 * x[2]
         ],
-        name='C16'
+        name='C15'
     ),
-    17: Example(
+    16: Example(
         n=3,
         D_zones=Zone(shape='ball', center=[0] * 3, r=2000 ** 2),
         f=[
@@ -180,9 +171,9 @@ examples = {
             lambda x: -x[1] + x[2],
             lambda x: -x[2]
         ],
-        name='C17'
+        name='C16'
     ),
-    18: Example(
+    17: Example(
         n=3,
         D_zones=Zone(shape='ball', center=[0] * 3, r=1000 ** 2),
         f=[
@@ -190,9 +181,9 @@ examples = {
             lambda x: -x[0] + x[2] ** 2 - x[1] ** 3,
             lambda x: -x[2] - x[1] * x[2]
         ],
-        name='C18'
+        name='C17'
     ),
-    19: Example(
+    18: Example(
         n=3,
         D_zones=Zone(shape='ball', center=[0] * 3, r=1000 ** 2),
         f=[
@@ -200,9 +191,9 @@ examples = {
             lambda x: (x[1] * x[2]) ** 2 - x[0] ** 3 - x[1] ** 3,
             lambda x: -x[2] - x[1] ** 3 * x[2]
         ],
-        name='C19'
+        name='C18'
     ),
-    20: Example(
+    19: Example(
         n=4,
         D_zones=Zone(shape='ball', center=[0] * 4, r=1000 ** 2),
         f=[
@@ -211,9 +202,9 @@ examples = {
             lambda x: 3 * x[1] - x[2] - x[3],
             lambda x: -2 * x[1] + x[2] - x[3]
         ],
-        name='C20'
+        name='C19'
     ),
-    21: Example(
+    20: Example(
         n=6,
         D_zones=Zone(shape='ball', center=[0] * 6, r=1000 ** 2),
         f=[
@@ -224,7 +215,7 @@ examples = {
             lambda x: -x[4] + x[5] ** 3,
             lambda x: -x[4] - x[5] + x[2] ** 4
         ],
-        name='C21'
+        name='C20'
     ),
 }
 

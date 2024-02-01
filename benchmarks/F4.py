@@ -9,7 +9,7 @@ from benchmarks.Exampler_V import get_example_by_name
 def main():
     activations = ['SKIP']
     hidden_neurons = [10] * len(activations)
-    example = get_example_by_name('C9')
+    example = get_example_by_name('C12')
     start = timeit.default_timer()
     opts = {
         "ACTIVATION": activations,

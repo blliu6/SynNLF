@@ -5,11 +5,11 @@ import torch
 import numpy as np
 from benchmarks.Exampler_V import get_example_by_name
 
-import sys, os
-file_name = os.path.basename(__file__).split(".")[0]
-path = './results/'
-full_path = path + file_name
-sys.stdout = open(full_path, 'w')
+# import sys, os
+# file_name = os.path.basename(__file__).split(".")[0]
+# path = './results/'
+# full_path = path + file_name
+# sys.stdout = open(full_path, 'w')
 
 def main():
     activations = ['SKIP']
@@ -21,7 +21,7 @@ def main():
         "EXAMPLE": example,
         "N_HIDDEN_NEURONS": hidden_neurons,
         "BATCH_SIZE": 500,
-        "LEARNING_RATE": 0.60,
+        "LEARNING_RATE": 0.04,
         "LOSS_WEIGHT": (1.0, 1.0),
         "SPLIT_D": False,
         'BIAS': False,
