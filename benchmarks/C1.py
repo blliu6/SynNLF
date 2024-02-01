@@ -6,8 +6,6 @@ import numpy as np
 from benchmarks.Exampler_V import get_example_by_name
 
 
-# barr_2,emsoft_c3,emsoft_c6,emsoft_c7,emsoft_c8,nonpoly0,nonpoly2,nonpoly1,nonpoly3
-
 def main():
     activations = ['SKIP']
     hidden_neurons = [10] * len(activations)

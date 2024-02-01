@@ -4,10 +4,7 @@ import timeit
 import torch
 import numpy as np
 from benchmarks.Exampler_V import get_example_by_name
-from plots.plot_lyap import plot_benchmark_2d
 
-
-# barr_2,emsoft_c3,emsoft_c6,emsoft_c7,emsoft_c8,nonpoly0,nonpoly2,nonpoly1,nonpoly3
 
 def main():
     activations = ['SKIP']
@@ -19,7 +16,7 @@ def main():
         "EXAMPLE": example,
         "N_HIDDEN_NEURONS": hidden_neurons,
         "BATCH_SIZE": 300,
-        "LEARNING_RATE": 0.52,
+        "LEARNING_RATE": 1.02,
         "LOSS_WEIGHT": (1.0, 1.0),
         "SPLIT_D": False,
         'BIAS': False,
@@ -35,8 +32,11 @@ def main():
     c.solve()
     end = timeit.default_timer()
     print('Elapsed Time: {}'.format(end - start))
-    # if example.n == 2:
-    #     plot_benchmark_2d(c.ex, c.Learner.net.get_lyapunov())
+    if example.n == 2:
+        from plots.plot import Draw
+        draw = Draw(c.ex, c.Learner.net.get_lyapunov())
+        draw.plot_benchmark_2d()
+        draw.plot_benchmark_3d()
 
 
 if __name__ == '__main__':
