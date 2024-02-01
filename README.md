@@ -15,7 +15,7 @@ the efficiency and scalability of our tool compared to traditional numerical met
 based approach, enabling effective verification of high-dimensional systems over wider
 region of attractions.
 
-The directory in which you install SynNBC contains five subdirectories:
+The directory in which you install SynNLF contains five subdirectories:
 
 * `/benchmarks`: the source code and some examples;
 * `/learn`: the code of learners;
@@ -38,7 +38,7 @@ To install and run SynHbc, you need:
 You need install required software packages listed below and setting up a MOSEK license .
 
 1. Download SynHbc.zip, and unpack it;
-2. Install the required software packages for using SynHbc:
+2. Install the required software packages for using SynNLF:
 
 ```
 matplotlib==3.5.3
@@ -66,7 +66,7 @@ cvxpy~=1.4.1
 * Commercial licenses
     * Assuming you purchased a product ( <https://www.mosek.com/sales/order/>) you will obtain a license file.
 
-# 3.Automated Synthesis of Neural Barrier Certificates
+# 3.Automated Synthesis of Neural Lyapunov function
 
 ## 3.1 New examples
 
