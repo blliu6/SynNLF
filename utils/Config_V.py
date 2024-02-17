@@ -12,7 +12,7 @@ class CegisConfig():
     LOSS_WEIGHT = (1, 1)
     BIAS = False
     SPLIT_D = False
-    MARGIN = 0.5
+    MARGIN = 0.
     DEG = [2, 2]
     OPT = torch.optim.AdamW
     C_b = 0.2
