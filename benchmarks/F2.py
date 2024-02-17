@@ -25,7 +25,6 @@ def main():
         'max_iter': 20,
         'counter_nums': 130,
         'ellipsoid': True,
-        'x0': [10] * example.n,
         'loss_optimization': True,
     }
     Config = CegisConfig(**opts)
@@ -37,7 +36,6 @@ def main():
         from plots.plot import Draw
         draw = Draw(c.ex, c.Learner.net.get_lyapunov())
         draw.plot_benchmark_2d()
-        draw.plot_benchmark_3d()
 
 
 if __name__ == '__main__':

@@ -5,11 +5,6 @@ import torch
 import numpy as np
 from benchmarks.Exampler_V import get_example_by_name
 
-import sys, os
-file_name = os.path.basename(__file__).split(".")[0]
-path = './results/'
-full_path = path + file_name
-sys.stdout = open(full_path, 'w')
 
 def main():
     activations = ['SKIP']
@@ -30,7 +25,6 @@ def main():
         'counter_nums': 130,
         'Global_Optimization': False,
         'ellipsoid': True,
-        'x0': [10] * example.n,
         'loss_optimization': False,
     }
     Config = CegisConfig(**opts)
@@ -42,7 +36,6 @@ def main():
         from plots.plot import Draw
         draw = Draw(c.ex, c.Learner.net.get_lyapunov())
         draw.plot_benchmark_2d()
-        draw.plot_benchmark_3d()
 
 
 if __name__ == '__main__':

@@ -44,8 +44,8 @@ class CounterExampleFinder:
         self.x = sp.symbols(['x{}'.format(i + 1) for i in range(self.n)])
         self.config = config
         self.nums = config.counter_nums
-        self.x0 = np.ones(self.n) if config.x0 is None else config.x0
-        self.Global_Optimization = config.Global_Optimization
+        self.x0 = np.array([11] * example.n)
+        self.Global_Optimization = False
         self.ellipsoid = config.ellipsoid
 
     def find_counterexamples(self, V):

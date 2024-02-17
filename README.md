@@ -1,8 +1,21 @@
 # 1.Introduction
 
-SynNBC is a new software toolbox for safety verification based on neural barrier certificates synthesis for continuous dynamical systems. We construct the synthesis framework as an inductive loop between a Learner and a Verifier based on barrier certificate learning and counterexample guidance. In the counterexample generation phase,we use the special form to convert the counterexample generation into a polynomial optimization problem for obtaining the optimal counterexample. In the verification phase, the task of identifying the real barrier certificate can be tackled by solving the Linear Matrix Inequalities (LMI) feasibility problem.
+Stability analysis forms the core of control system design, ensuring the stability of dynamical
+systems by preventing deviations from a region of attraction around an equilibrium point. Moreover,
+there is a consideration for potential asymptotic convergence towards the equilibrium point, all
+within the theory of Lyapunov function. This tool introduces an novel approach to synthesizing
+Lyapunov functions for nonlinear continuous systems, integrating learning and verification. We
+efficiently leverage machine learning to train the Lyapunov neural network in a data-driven manner, automatically
+generating candidate functions that may serve as Lyapunov certificate. For formal verification, we encode the Lyapunov
+conditions for asymptotic stability into Linear Matrix Inequalities (LMIs) and solve LMI feasibility testing problems
+for identifying a real one as formal certificate. In the case of verification failure, counterexamples violating the
+requirements are computed through polynomial optimization technique. The constructed counterexample set is then
+added to the dataset for refining neural network training. Comparative experiments on a set of benchmarks demonstrate
+the efficiency and scalability of our tool compared to traditional numerical method and state-of-the-art neural network
+based approach, enabling effective verification of high-dimensional systems over wider
+region of attractions.
 
-The directory in which you install SynNBC contains five subdirectories:
+The directory in which you install SynNLF contains five subdirectories:
 
 * `/benchmarks`: the source code and some examples;
 * `/learn`: the code of learners;
@@ -14,162 +27,111 @@ The directory in which you install SynNBC contains five subdirectories:
 
 ## 2.1 System requirements
 
-To install and run SynNBC, you need:
+To install and run SynNLF, you need:
 
-* Windows Platform: `Python 3.9.12`;
-* Linux Platform: `Python 3.9.12`;
-* Mac OS X Platform: `Python 3.9.12`.
+* Windows Platform: `Python 3.9`;
+* Linux Platform: `Python 3.9`;
+* Mac OS X Platform: `Python 3.9`.
 
 ## 2.2 Installation instruction
 
 You need install required software packages listed below and setting up a MOSEK license .
 
-1. Download SynNBC.zip, and unpack it;
-2. Install the required software packages for using SynNBC:
+1. Download SynHbc.zip, and unpack it;
+2. Install the required software packages for using SynNLF:
 
-    ```python
-    pip intsall matplotlib==3.5.3
-    pip intsall numpy==1.23.2
-    pip intsall scipy==1.9.0
-    pip intsall SumOfSquares==1.2.1
-    pip intsall sympy==1.11
-    pip intsall torch==1.12.1
-    pip install Mosek==10.0.30
-    pip install gurobipy==10.0.0
-    pip install picos==2.4.11
-    ```
+```
+matplotlib==3.5.3
+numpy==1.23.2
+scipy==1.9.0
+SumOfSquares==1.2.1
+sympy==1.11
+torch==1.12.1
+gurobipy~=11.0.0
+mosek==10.0.30
+picos==2.4.11
+scikit-learn==1.2.2
+cvxpy~=1.4.1
+```
 
-3. Obtain a fully featured Trial License if you are from a private or public company, or Academic License if you are a student/professor at a university.
+3. Obtain a fully featured Trial License if you are from a private or public company, or Academic License if you are a
+   student/professor at a university.
 
 * Free licenses
-  * To obtain a trial license go to <https://www.mosek.com/products/trial/>
-  * To obtain a personal academic license go to <https://www.mosek.com/products/academic-licenses/>
-  * To obtain an institutional academic license go to <https://www.mosek.com/products/academic-licenses/>
-  * If you have a custom license go to <https://www.mosek.com/license/request/custom/> and enter the code you received.
+    * To obtain a trial license go to <https://www.mosek.com/products/trial/>
+    * To obtain a personal academic license go to <https://www.mosek.com/products/academic-licenses/>
+    * To obtain an institutional academic license go to <https://www.mosek.com/products/academic-licenses/>
+    * If you have a custom license go to <https://www.mosek.com/license/request/custom/> and enter the code you
+      received.
 * Commercial licenses
-  * Assuming you purchased a product ( <https://www.mosek.com/sales/order/>) you will obtain a license file.
+    * Assuming you purchased a product ( <https://www.mosek.com/sales/order/>) you will obtain a license file.
 
-# 3.Automated Synthesis of Barrier Functions
-
-Main steps to generate verified barrier functions:
-
-1. Create a new example and confirm its number;
-2. Input dimension `n`, three domains: `D_zones,I_zones and U_zones` and differential equations `f`;
-3. Define the example’s name, call function `get_example_by_name`, input parameters of opts and get verified barrier functions.
+# 3.Automated Synthesis of Neural Lyapunov function
 
 ## 3.1 New examples
 
-In SynNBC, if we want to generate a barrier function, at first we need create a new example in the examples dictionary in `Exampler_B.py`. Then we should confirm its number. In an example, its number is the key and value is the new example constructed by Example function.
-
-```python
->>  1 : Example ()
-```
+In SynNLF, if we want to synthesize a barrier certificate, at first we need create a new example in the examples
+dictionary in `Exampler_V.py`. Then we should confirm its number. In an example, its number is the key and value is the
+new example constructed by Example class.
 
 ## 3.2 Inputs for new examples
 
-At first, we should confirm the dimension `n` and three domains: `D_zones,I_zones and U_zones`. For each domain, the number of the ranges must match the dimension `n` input.
+At first, we should confirm the dimension `n` ,basic domains: `local` and differential equations.Here we show a hybrid
+system example to illustrate.
 
-**Example 1** &emsp; Suppose we wish to input the following domains:
-
-$$
-D\_zones = \{-2 \leq x_1 \leq 2 ,-2 \leq x_2 \leq 2\}\\
-I\_zones = \{0 \leq x_1 \leq 1 ,1 \leq x_2 \leq 2\}\\
-U\_zones = \{-2 \leq x_1 \leq -0.5 ,-0.75 \leq x_2 \leq 0.75\}\\
-$$
-
-This can be instantiated as follows:
+**Example 1** &emsp; Suppose we wish to input the following example:
 
 ```python
->>  n=2,
->>  D_zones=[[-2, 2]] * 2,
->>  I_zones=[[0, 1], [1, 2]],
->>  U_zones=[[-2, -0.5], [-0.75, 0.75]],
-```
-
-Then, the dynamical system should be confirmed in the Example function. The dynamical system is modelled as differential equations `f`. We define the differential equations through lambda expressions. The variables $x_1,x_2,x_3,\cdots,x_n$ should be typed as $x[0], x[1], x[2], \cdots, x[n-1]$. All differential equations are input into the *f* list.
-
-For Example 1, we consider the following differential equations:
-$$
-\begin{cases}
-f_1 = x_2 + 2*x_1*x_2\\
-f_2 = -x_0 - x_1 ^ 2 + 2* x_0 ^ 2\\
-\end{cases}
-$$
-
-Construct the differential equations by setting
-
-```python
->>  f=[
-        lambda x: x[1] + 2 * x[0] * x[1],
-        lambda x: -x[0] - x[1] ** 2 + 2 * x[0] ** 2
+1: Example(
+    n=2,
+    D_zones=Zone(shape='ball', center=[0] * 2, r=1500 ** 2),
+    f=[
+        lambda x: -x[0],
+        lambda x: -x[1]
     ],
+    name='C1'
+)
 ```
 
-## 3.3 Getting barrier functions
-
-After inputting the dimension, domains and `f`, we should define the example’s name. For instance, to create an example named `barr_1`, you need type:
-
-```python
->> name = 'barr_1'
-```
-
-The completed example is following:
-
-```python
->> 2: Example(
-        n=2,
-        D_zones=[[-2, 2]] * 2,
-        I_zones=[[0, 1], [1, 2]],
-        U_zones=[[-2, -0.5], [-0.75, 0.75]],
-        f=[
-            lambda x: x[1] + 2 * x[0] * x[1],
-            lambda x: -x[0] - x[1] ** 2 + 2 * x[0] ** 2
-        ],
-        name='barr_1'
-    ),
-```
-
-Then we should update the code of `barrier_template.py` or create a new python file by imitating its code. For generating a barrier function,we should input the parameter name to call function `get_example_by_name` and set the parameters of opts.
+Then we should create a new python file named 'C1.py'. In this file we can adjust the hyperparameters for learning,
+verification and counterexample generation.
 
 For Example 1, the code example is as follows:
 
 ```python
->>  activations = ['SKIP']  # Only "SQUARE","SKIP","MUL" are optional.
->>  hidden_neurons = [10] * len(activations)
->>  example = get_example_by_name('barr_1')
->>  opts = {
-        "ACTIVATION": activations,
-        "EXAMPLE": example,
-        "N_HIDDEN_NEURONS": hidden_neurons,
-        "MULTIPLICATOR": True,  # Whether to use multiplier.
-        "MULTIPLICATOR_NET": [],  # The number of nodes in each layer of the multiplier network;
-        # if set to empty, the multiplier is a trainable constant.
-        "MULTIPLICATOR_ACT": [],  # The activation function of each layer of the multiplier network;
-        # since the last layer does not require an activation function, the number is one less than MULTIPLICATOR_NET.
-        "BATCH_SIZE": 500,
-        "LEARNING_RATE": 0.1,
-        "LOSS_WEIGHT": (1.0, 1.0, 1.0),  # They are the weights of init loss, unsafe loss, and diffB loss.
-        "MARGIN": 0.5,
-        "SPLIT_D": not True,  # Indicates whether to divide the region into 2^n small regions
-        # when looking for negative examples, and each small region looks for negative examples separately.
-        "DEG": [2, 2, 2, 1],  # Respectively represent the times of init, unsafe, diffB,
-        # and unconstrained multipliers when verifying sos.
-        "R_b": 0.6,
-        "LEARNING_LOOPS": 100,
-        "CHOICE": [0, 0, 0]  # For finding the negative example, whether to use the minimize function or the gurobi
-        # solver to find the most value, 0 means to use the minimize function, 1 means to use the gurobi solver; the
-        # three items correspond to init, unsafe, and diffB to find the most value. (note: the gurobi solver does not
-        # supports three or more objective function optimizations.)
-    }
+activations = ['SKIP']
+hidden_neurons = [10] * len(activations)
+example = get_example_by_name('C1')
+start = timeit.default_timer()
+opts = {
+    "ACTIVATION": activations,
+    "EXAMPLE": example,
+    "N_HIDDEN_NEURONS": hidden_neurons,
+    "BATCH_SIZE": 100,
+    "LEARNING_RATE": 0.1,
+    "LOSS_WEIGHT": (1.0, 1.0),
+    "SPLIT_D": False,
+    'BIAS': False,
+    'DEG': [0, 0],
+    'max_iter': 20,
+    'counter_nums': 30,
+    'ellipsoid': True,
+    'x0': [10] * example.n
+}
+Config = CegisConfig(**opts)
+c = Cegis(Config)
+c.solve()
+end = timeit.default_timer()
+print('Elapsed Time: {}'.format(end - start))
+if example.n == 2:
+    from plots.plot import Draw
+
+    draw = Draw(c.ex, c.Learner.net.get_lyapunov())
+    draw.plot_benchmark_2d()
 ```
 
-At last, run the current file and we can get verified barrier functions. For Example 1, the result is as follows:
+At last, run the current file and we can get verified Lyapunov function. For Example 1, the result is as follows:
 
 ```python
-B = -0.793783350902763*x1**2 - 0.196982929294886*x1*x2 - 2.04443478700998*x1 + 1.1180428026877*x2**2 - 3.80881503168995*x2 + 2.51228422783734
+V = 1.87377173676601 * x1 ** 2 - 0.840059772877422 * x1 * x2 + 1.07420838586117 * x2 ** 2
 ```
-
-At the same time, if the dimension `n` is 2, then a three-dimensional image of the `Barrier Certificate` and a two-dimensional image of the `Barrier Border` will be generated.For example 1, the image is as follows:
-
-![Barrier Certificate](https://github.com/tete0602/SynNBC/blob/main/benchmarks/img/Barr1_3d.png)
-![Barrier Border](https://github.com/tete0602/SynNBC/blob/main/benchmarks/img/Barr1_2d.png)
