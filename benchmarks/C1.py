@@ -12,12 +12,16 @@ import sys, os
 # full_path = path + file_name
 # sys.stdout = open(full_path, 'w')
 
-
 def main():
     activations = ['SKIP']
     hidden_neurons = [10] * len(activations)
     example = get_example_by_name('C1')
     start = timeit.default_timer()
+
+    ## example
+    example.D_zones.r = pow(250, 2)
+
+    ## config
     opts = {
         "ACTIVATION": activations,
         "EXAMPLE": example,
@@ -27,11 +31,12 @@ def main():
         "LOSS_WEIGHT": (1.0, 1.0),
         "SPLIT_D": False,
         'BIAS': False,
-        'DEG': [0, 0],
+        'DEG': [0, 0, 0],
         'max_iter': 20,
         'counter_nums': 30,
         'ellipsoid': True,
     }
+
     Config = CegisConfig(**opts)
     c = Cegis(Config)
     c.solve()

@@ -7,13 +7,15 @@ import time
 
 
 class SosValidator_V():
-    def __init__(self, example: Example, V) -> None:
+    def __init__(self, example: Example, V, beta) -> None:
         self.x = sp.symbols(['x{}'.format(i + 1) for i in range(example.n)])
         self.n = example.n
         self.Invs = example.D_zones
         self.f = [example.f[i](self.x) for i in range(self.n)]
         self.V = V
         self.var_count = 0
+        self.eps = 0.0005
+        self.beta = beta
 
     def verify_positive(self, expression, con, deg=2):
         expr = expression
@@ -31,7 +33,7 @@ class SosValidator_V():
         except:
             return False
 
-    def SolveAll(self, deg=(2, 2)):
+    def SolveAll(self, deg=(2, 2, 2)):
         constraints = self.get_con(self.Invs)
         # verify1
         expr1 = self.V
@@ -42,12 +44,17 @@ class SosValidator_V():
         # verify2
         V = self.V
         x = self.x
-        expr2 = -sum([sp.diff(V, x[i]) * self.f[i] for i in range(self.n)])
+        expr2 = -sum([sp.diff(V, x[i]) * self.f[i] for i in range(self.n)]) + self.eps
         state2 = self.verify_positive(expr2, constraints, deg[1])
         if not state2:
             print('DV is not satisfied.')
 
-        return state1 & state2
+        # verify3:  初始区上的点都是大于0.
+        expr3 = self.beta - self.V
+        state3 = self.verify_positive(expr3, constraints, deg[2])
+        if not state3:
+            print('the upper bound {} is not statisfied'.format(self.beta))
+        return state1 & state2 & state3
 
     def get_con(self, zone: Zone):
         x = self.x

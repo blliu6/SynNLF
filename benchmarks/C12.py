@@ -12,7 +12,7 @@ from benchmarks.Exampler_V import get_example_by_name
 # sys.stdout = open(full_path, 'w')
 
 def main():
-    activations = ['SKIP'] * 3
+    activations = ['SQUARE'] * 1
     hidden_neurons = [10] * len(activations)
     example = get_example_by_name('C12')
     start = timeit.default_timer()
@@ -21,11 +21,11 @@ def main():
         "EXAMPLE": example,
         "N_HIDDEN_NEURONS": hidden_neurons,
         "BATCH_SIZE": 500,
-        "LEARNING_RATE": 0.125,
+        "LEARNING_RATE": 0.1,
         "LOSS_WEIGHT": (1.0, 1),
         "SPLIT_D": False,
         'BIAS': False,
-        'DEG': [6, 6],
+        'DEG': [2, 2, 0],
         'max_iter': 10,
         'counter_nums': 100,
         'ellipsoid': True,
@@ -41,7 +41,7 @@ def main():
         from plots.plot import Draw
         draw = Draw(c.ex, c.Learner.net.get_lyapunov())
         draw.plot_benchmark_2d()
-        draw.plot_benchmark_3d()
+        # draw.plot_benchmark_3d()
 
 
 if __name__ == '__main__':

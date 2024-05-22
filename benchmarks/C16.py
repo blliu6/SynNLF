@@ -20,7 +20,7 @@ def main():
         "LOSS_WEIGHT": (1.0, 1.0),
         "SPLIT_D": False,
         'BIAS': False,
-        'DEG': [2, 4],
+        'DEG': [4, 4, 0],
         'max_iter': 20,
         'counter_nums': 30,
         'ellipsoid': True

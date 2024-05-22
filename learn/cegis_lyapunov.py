@@ -13,6 +13,7 @@ class Cegis:
     def __init__(self, config: CegisConfig):
         n = config.EXAMPLE.n
         self.ex = config.EXAMPLE
+
         self.n = n
         self.f = config.EXAMPLE.f
         self.batch_size = config.BATCH_SIZE
@@ -25,6 +26,7 @@ class Cegis:
         self.max_cegis_iter = config.max_iter
         self.DEG = config.DEG
 
+        self.beta = config.beta
     def solve(self):
         # print(list(self.Learner.net.parameters()))
         # import os
@@ -46,7 +48,7 @@ class Cegis:
             print(f'iter: {i + 1} \nV = {V}')
 
             t3 = timeit.default_timer()
-            Sos_Validator = SosValidator_V(self.ex, V)
+            Sos_Validator = SosValidator_V(self.ex, V, self.beta)
             if Sos_Validator.SolveAll(deg=deg):
                 print('SOS verification passed!')
                 t4 = timeit.default_timer()

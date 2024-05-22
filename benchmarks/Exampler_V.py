@@ -26,7 +26,7 @@ class Example:
 examples = {
     1: Example(
         n=2,
-        D_zones=Zone(shape='ball', center=[0] * 2, r=1500 ** 2),
+        D_zones=Zone(shape='ball', center=[0] * 2, r=1 ** 2),
         f=[
             lambda x: -x[0],
             lambda x: -x[1]
@@ -89,7 +89,8 @@ examples = {
     ),
     8: Example(
         n=2,
-        D_zones=Zone(shape='ball', center=[0] * 2, r=1 ** 2),
+        D_zones=Zone(shape='ball', center=[0]*2, r=pow(1., 2)),
+        # D_zones=Zone(shape='box', low=[-2]*2,up=[2]*2),
         f=[
             lambda x: -x[1],
             lambda x: x[0] - x[1] * (1 - x[0] ** 2),
@@ -99,7 +100,7 @@ examples = {
 
     9: Example(
         n=2,
-        D_zones=Zone(shape='ball', center=[0] * 2, r=1000 ** 2),
+        D_zones=Zone(shape='ball', center=[0] * 2, r=pow(10, 2)),
         f=[
             lambda x: -x[1] - 3 / 2 * x[0] * x[1] - x[0] ** 3,
             lambda x: x[0] + 3 * x[0] ** 2 + 9 / 4 * x[0] ** 3 - x[1] ** 3
@@ -108,7 +109,7 @@ examples = {
     ),
     10: Example(
         n=2,
-        D_zones=Zone(shape='ball', center=[0] * 2, r=1000 ** 2),
+        D_zones=Zone(shape='ball', center=[0] * 2, r=0.01** 2),
         f=[
             lambda x: -x[1],
             lambda x: -x[0] - 4 * x[1] + 0.25 * (x[1] - 0.5 * x[0]) * (x[1] - 2 * x[0]) * (x[1] + 2 * x[0]) * (
@@ -118,7 +119,7 @@ examples = {
     ),
     11: Example(
         n=2,
-        D_zones=Zone(shape='ball', center=[0] * 2, r=1500 ** 2),
+        D_zones=Zone(shape='ball', center=[0] * 2, r=1 ** 2),
         f=[
             lambda x: -x[0] - 1.5 * x[0] ** 2 * x[1] ** 3,
             lambda x: -x[1] ** 3 + 0.5 * x[0] ** 3 * x[1] ** 2
@@ -127,7 +128,7 @@ examples = {
     ),
     12: Example(
         n=2,
-        D_zones=Zone(shape='ball', center=[0] * 2, r=800 ** 2),
+        D_zones=Zone(shape='ball', center=[0] * 2, r=0.4 ** 2),
         f=[
             lambda x: -x[0] - 3 / 2 * x[0] ** 2 * x[1] ** 3,
             lambda x: -x[1] ** 3 + 1 / 2 * (x[0] * x[1]) ** 2
@@ -136,7 +137,7 @@ examples = {
     ),
     13: Example(
         n=2,
-        D_zones=Zone(shape='ball', center=[0] * 2, r=1000 ** 2),
+        D_zones=Zone(shape='ball', center=[0] * 2, r=0.5 ** 2),
         f=[
             lambda x: x[1] - x[0] ** 3 + x[0] * x[1] ** 4,
             lambda x: -x[0] ** 3 - x[1] ** 5
@@ -145,7 +146,7 @@ examples = {
     ),
     14: Example(
         n=3,
-        D_zones=Zone(shape='ball', center=[0] * 3, r=1000 ** 2),
+        D_zones=Zone(shape='ball', center=[0] * 3, r=11 ** 2),
         f=[
             lambda x: -x[0],
             lambda x: -2 * x[1] + 0.1 * x[0] * x[1] ** 2 + x[2],
@@ -155,7 +156,7 @@ examples = {
     ),
     15: Example(
         n=3,
-        D_zones=Zone(shape='ball', center=[0] * 3, r=1000 ** 2),
+        D_zones=Zone(shape='ball', center=[0] * 3, r=0.5 ** 2),
         f=[
             lambda x: -x[0] ** 3 - x[0] * x[2] ** 2,
             lambda x: -x[1] - x[0] ** 2 * x[1],
@@ -165,7 +166,7 @@ examples = {
     ),
     16: Example(
         n=3,
-        D_zones=Zone(shape='ball', center=[0] * 3, r=2000 ** 2),
+        D_zones=Zone(shape='ball', center=[0] * 3, r=1 ** 2),
         f=[
             lambda x: -3 * x[0] - 0.1 * x[0] * x[1] ** 3,
             lambda x: -x[1] + x[2],
@@ -175,7 +176,7 @@ examples = {
     ),
     17: Example(
         n=3,
-        D_zones=Zone(shape='ball', center=[0] * 3, r=1000 ** 2),
+        D_zones=Zone(shape='ball', center=[0] * 3, r=0.01 ** 2),
         f=[
             lambda x: x[1] - x[0] ** 2 * x[2] ** 2 - x[0] ** 3,
             lambda x: -x[0] + x[2] ** 2 - x[1] ** 3,
@@ -185,7 +186,7 @@ examples = {
     ),
     18: Example(
         n=3,
-        D_zones=Zone(shape='ball', center=[0] * 3, r=1000 ** 2),
+        D_zones=Zone(shape='ball', center=[0] * 3, r=1 ** 2),
         f=[
             lambda x: -x[0] + x[1] - x[0] * x[2] ** 2,
             lambda x: (x[1] * x[2]) ** 2 - x[0] ** 3 - x[1] ** 3,
@@ -195,7 +196,7 @@ examples = {
     ),
     19: Example(
         n=4,
-        D_zones=Zone(shape='ball', center=[0] * 4, r=1000 ** 2),
+        D_zones=Zone(shape='ball', center=[0] * 4, r=0.5 ** 2),
         f=[
             lambda x: -x[0] ** 3 + x[0] ** 2 * x[2] * x[3],
             lambda x: -x[1] - 3 * x[2] + 2 * x[3] + (x[2] * x[3]) ** 2,
@@ -206,7 +207,7 @@ examples = {
     ),
     20: Example(
         n=6,
-        D_zones=Zone(shape='ball', center=[0] * 6, r=1000 ** 2),
+        D_zones=Zone(shape='ball', center=[0] * 6, r=0.01 ** 2),
         f=[
             lambda x: x[1] * x[3] - x[0] ** 3,
             lambda x: -3 * x[0] * x[3] - x[1] ** 3,
@@ -216,6 +217,71 @@ examples = {
             lambda x: -x[4] - x[5] + x[2] ** 4
         ],
         name='C20'
+    ),
+    # 21: Example(
+    #     n=2,
+    #     D_zones=Zone(),
+    #     f=[
+    #         lambda x:-x[0] + x[0]*x[1],
+    #         lambda x:-x[1]
+    #     ],
+    #     name='D1'
+    # ),
+    22: Example(
+        n=3,
+        D_zones=Zone(shape='ball', center=[0]*3, r=0.3**2),
+        f=[
+            lambda x:-10*(x[0] - x[1]),
+            lambda x:28*x[0] - x[1] - x[0]*x[2],
+            lambda x:x[0]*x[1] - 8/3*x[2]
+        ],
+        name='D2'
+    ),
+    23: Example(
+        n=2,
+        D_zones=Zone(shape='ball', center=[0]*2, r=0.3**2),
+        f=[
+            lambda x:-2*x[1],
+            lambda x:0.8*x[0] + 10 * (x[0]**2 - 0.21) * x[1]
+        ],
+        name='D3'
+    ),
+    24: Example(
+        n=3,
+        D_zones=Zone(shape='ball', center=[0]*3, r=0.5**2),
+        f=[
+            lambda x:x[0] * (x[0]**2 + x[1]**2 - 1) - x[1] * (x[2]**2 + 1),
+            lambda x:x[1] * (x[0]**2 + x[1]**2 - 1) + x[0] * (x[2]**2 + 1),
+            lambda x:10 * x[2] * (x[2]**2 - 1)
+        ],
+        name='D4'
+    ),
+    25:Example(
+        n=2,
+        D_zones=Zone(shape='ball', center=[0]*2, r=0.01**2),
+        f=[
+            lambda x:-0.42 * x[0] - 1.05 * x[1] - 2.3 * x[0] ** 2 - 0.5 * x[0] * x[1] - x[0] ** 3,
+            lambda x:1.98 * x[0] + x[0] * x[1],
+        ],
+        name='D5'
+    ),
+    26:Example(
+        n=2,
+        D_zones=Zone(shape='ball', center=[0]*2, r=1**2),
+        f=[
+            lambda x:-x[0] * (1 - x[0] * x[1]),
+            lambda x:-x[1]
+        ],
+        name='D6'
+    ),
+    27:Example(
+        n=2,
+        D_zones=Zone(shape='ball', center=[0]*2, r=.01**2),
+        f=[
+            lambda x:-5 * x[1] - 4 * x[0] + x[0] * x[1] ** 2 - 6 * x[0] ** 3,
+            lambda x:-20 * x[0] - 4 * x[1] + 4 * x[0] ** 2 * x[1] + x[1] ** 3
+        ],
+        name='D7'
     ),
 }
 

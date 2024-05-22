@@ -11,6 +11,9 @@ def main():
     hidden_neurons = [10] * len(activations)
     example = get_example_by_name('C4')
     start = timeit.default_timer()
+
+    example.D_zones.r = pow(1000, 2)
+
     opts = {
         "ACTIVATION": activations,
         "EXAMPLE": example,
@@ -20,7 +23,7 @@ def main():
         "LOSS_WEIGHT": (1.0, 1.0),
         "SPLIT_D": False,
         'BIAS': False,
-        'DEG': [4, 4],
+        'DEG': [4, 4, 0],
         'max_iter': 20,
         'counter_nums': 200,
         'ellipsoid': True,

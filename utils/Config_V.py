@@ -13,7 +13,7 @@ class CegisConfig():
     BIAS = False
     SPLIT_D = False
     MARGIN = 0.
-    DEG = [2, 2]
+    DEG = [2, 2, 2]
     OPT = torch.optim.AdamW
     C_b = 0.2
     R_b = 0.5
@@ -21,6 +21,7 @@ class CegisConfig():
     counter_nums = 20
     learn_loops = 100
     max_iter = 10
+    beta = 10**6
     ellipsoid = False
     loss_optimization = False
 

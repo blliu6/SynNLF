@@ -12,7 +12,7 @@ from benchmarks.Exampler_V import get_example_by_name
 # sys.stdout = open(full_path, 'w')
 
 def main():
-    activations = ['SKIP']
+    activations = ['SQUARE']
     hidden_neurons = [10] * len(activations)
     example = get_example_by_name('C13')
     start = timeit.default_timer()
@@ -25,12 +25,12 @@ def main():
         "LOSS_WEIGHT": (1.0, 1.0),
         "SPLIT_D": False,
         'BIAS': False,
-        'DEG': [4, 4],
+        'DEG': [4, 4, 0],
         'max_iter': 20,
         'counter_nums': 100,
         'ellipsoid': True,
         'x0': [10] * example.n,
-        'loss_optimization': True,
+        'loss_optimization': False,
     }
     Config = CegisConfig(**opts)
     c = Cegis(Config)
@@ -41,7 +41,7 @@ def main():
         from plots.plot import Draw
         draw = Draw(c.ex, c.Learner.net.get_lyapunov())
         draw.plot_benchmark_2d()
-        draw.plot_benchmark_3d()
+        # draw.plot_benchmark_3d()
 
 
 if __name__ == '__main__':

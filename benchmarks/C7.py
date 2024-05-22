@@ -7,20 +7,23 @@ from benchmarks.Exampler_V import get_example_by_name
 
 
 def main():
-    activations = ['SKIP']
+    activations = ['SQUARE']
     hidden_neurons = [10] * len(activations)
     example = get_example_by_name('C7')
     start = timeit.default_timer()
+
+    example.D_zones.r = pow(2, 2)
+
     opts = {
         "ACTIVATION": activations,
         "EXAMPLE": example,
         "N_HIDDEN_NEURONS": hidden_neurons,
-        "BATCH_SIZE": 500,
-        "LEARNING_RATE": 0.50,
+        "BATCH_SIZE": 300,
+        "LEARNING_RATE": 0.05,
         "LOSS_WEIGHT": (1.0, 1.0),
         "SPLIT_D": False,
         'BIAS': False,
-        'DEG': [4, 4],
+        'DEG': [4, 2, 0],
         'max_iter': 20,
         'counter_nums': 130,
         'ellipsoid': True,
